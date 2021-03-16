@@ -287,11 +287,11 @@ class MetadataProvider {
         const { WindowCenter, WindowWidth } = instance;
 
         const windowCenter = Array.isArray(WindowCenter)
-          ? WindowCenter
-          : [WindowCenter];
+          ? Number(WindowCenter)
+          : Number([WindowCenter]);
         const windowWidth = Array.isArray(WindowWidth)
-          ? WindowWidth
-          : [WindowWidth];
+          ? Number(WindowWidth)
+          : Number([WindowWidth]);
 
         metadata = {
           windowCenter,
@@ -301,8 +301,8 @@ class MetadataProvider {
         break;
       case WADO_IMAGE_LOADER_TAGS.MODALITY_LUT_MODULE:
         metadata = {
-          rescaleIntercept: instance.RescaleIntercept,
-          rescaleSlope: instance.RescaleSlope,
+          rescaleIntercept: Number(instance.RescaleIntercept),
+          rescaleSlope: Number(instance.RescaleSlope),
           rescaleType: instance.RescaleType,
         };
         break;

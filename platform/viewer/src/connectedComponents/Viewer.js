@@ -59,12 +59,13 @@ class Viewer extends Component {
     isStudyLoaded: PropTypes.bool,
     dialog: PropTypes.object,
   };
-
   constructor(props) {
     super(props);
 
+    console.log('Viewer props', this.props);
     const { activeServer } = this.props;
     const server = Object.assign({}, activeServer);
+    console.log('activeServer', activeServer);
 
     OHIF.measurements.MeasurementApi.setConfiguration({
       dataExchange: {
@@ -182,6 +183,12 @@ class Viewer extends Component {
     this.currentTimepointId = currentTimepointId;
     this.timepointApi = timepointApi;
     this.measurementApi = measurementApi;
+    console.log(
+      'some apis on Viewer',
+      currentTimepointId,
+      timepointApi,
+      measurementApi
+    );
 
     if (studies) {
       const PatientID = studies[0] && studies[0].PatientID;
@@ -287,7 +294,7 @@ class Viewer extends Component {
               const sideClicked = side && side[0].toUpperCase() + side.slice(1);
               const openKey = `is${sideClicked}SidePanelOpen`;
               const selectedKey = `selected${sideClicked}SidePanel`;
-              const updatedState = Object.assign({}, this.state);
+              const updatedState = Object.assign({}, this.state); //copia el estado
 
               const isOpen = updatedState[openKey];
               const prevSelectedPanel = updatedState[selectedKey];

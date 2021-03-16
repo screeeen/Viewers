@@ -21,6 +21,7 @@ class ViewerMain extends Component {
 
   constructor(props) {
     super(props);
+    console.log('viewer main props',props);
 
     this.state = {
       displaySets: [],

@@ -112,7 +112,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
     const { config, defaultExtensions } = props;
 
     const appDefaultConfig = {
@@ -159,6 +158,8 @@ class App extends Component {
     _initServers(servers);
     initWebWorkers();
   }
+
+
 
   render() {
     const { whiteLabeling, routerBasename } = this._appConfig;

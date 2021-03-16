@@ -38,6 +38,7 @@ export default function init({ servicesManager, configuration }) {
   };
 
   const { csToolsConfig } = configuration;
+  console.log('configuration', configuration);
   const metadataProvider = OHIF.cornerstone.metadataProvider;
 
   cornerstone.metaData.addProvider(
@@ -51,7 +52,7 @@ export default function init({ servicesManager, configuration }) {
     showSVGCursors: true,
     autoResizeViewports: false,
   };
-
+  console.log('defaultCsToolsConfig', defaultCsToolsConfig);
   initCornerstoneTools(defaultCsToolsConfig);
 
   const toolsGroupedByType = {

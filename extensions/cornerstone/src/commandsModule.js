@@ -12,6 +12,7 @@ const { setViewportSpecificData } = OHIF.redux.actions;
 
 const refreshCornerstoneViewports = () => {
   cornerstone.getEnabledElements().forEach(enabledElement => {
+    console.log('element at commandsModule')
     if (enabledElement.image) {
       cornerstone.updateImage(enabledElement.element);
     }

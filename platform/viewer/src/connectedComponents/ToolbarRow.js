@@ -72,6 +72,7 @@ class ToolbarRow extends Component {
     };
 
     // ~ FIND MENU OPTIONS
+    // console.log('panelModules', panelModules);
     panelModules.forEach(panelExtension => {
       const panelModule = panelExtension.module;
       const defaultContexts = Array.from(panelModule.defaultContext);
@@ -181,6 +182,7 @@ class ToolbarRow extends Component {
     const onPressLeft = onPress.bind(this, 'left');
     const onPressRight = onPress.bind(this, 'right');
 
+    // console.log('toolbar:', this);
     return (
       <>
         <div className="ToolbarRow">
@@ -274,6 +276,7 @@ function _getDefaultButtonComponent(button, activeButtons) {
  * active, and what their onClick behavior should be.
  */
 function _getButtonComponents(toolbarButtons, activeButtons) {
+  // console.log('toolbarButtons', toolbarButtons,'activeButtons',activeButtons)
   const _this = this;
   return toolbarButtons.map(button => {
     const hasCustomComponent = button.CustomComponent;
@@ -305,10 +308,11 @@ function _getButtonComponents(toolbarButtons, activeButtons) {
  */
 function _handleToolbarButtonClick(button, evt, props) {
   const { activeButtons } = this.state;
-
+  console.log('state at _handleToolbarButtonClick ',this.state)
   if (button.commandName) {
     const options = Object.assign({ evt }, button.commandOptions);
     commandsManager.runCommand(button.commandName, options);
+    console.log('commandsManager at button',commandsManager)
   }
 
   // TODO: Use Types ENUM
@@ -318,6 +322,7 @@ function _handleToolbarButtonClick(button, evt, props) {
     const toggables = activeButtons.filter(
       ({ options }) => options && !options.togglable
     );
+    console.log('toggables',toggables)
     this.setState({ activeButtons: [...toggables, button] });
   } else if (button.type === 'builtIn') {
     this._handleBuiltIn(button);
