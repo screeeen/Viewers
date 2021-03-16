@@ -9,7 +9,12 @@ import {
 import { reducer as oidcReducer } from 'redux-oidc';
 import { redux } from '@ohif/core';
 import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
+const loggerMiddleware = createLogger({
+  level: 'info',
+  collapsed: true,
+});
 // Combine our @ohif/core and oidc reducers
 // Set init data, using values found in localStorage
 const { reducers, localStorage, sessionStorage } = redux;
@@ -27,7 +32,7 @@ const preloadedState = {
 const store = createStore(
   rootReducer,
   preloadedState,
-  composeEnhancers(applyMiddleware(...middleware))
+  composeEnhancers(applyMiddleware(...middleware,loggerMiddleware))
 );
 
 // When the store's preferences change,
