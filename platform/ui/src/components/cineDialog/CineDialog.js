@@ -9,6 +9,8 @@ class CineDialog extends PureComponent {
   constructor(props) {
     super(props);
 
+    // console.log('props del cine', props)
+
     this.state = {
       cineFrameRate: props.cineFrameRate,
       isPlaying: props.isPlaying,

@@ -104,6 +104,7 @@ export class StudyMetadata extends Metadata {
    * @returns {Array} The list of display sets created for the given series object
    */
   _createDisplaySetsForSeries(sopClassHandlerModules, series) {
+
     const study = this;
     const displaySets = [];
 
@@ -158,6 +159,7 @@ export class StudyMetadata extends Metadata {
     // series into another display set.
     const stackableInstances = [];
     series.forEachInstance(instance => {
+
       // All imaging modalities must have a valid value for SOPClassUID (x00080016) or Rows (x00280010)
       if (
         !isImage(instance.getTagValue('SOPClassUID')) &&
@@ -768,7 +770,7 @@ const isMultiFrame = instance => {
 };
 
 const makeDisplaySet = (series, instances) => {
-  const instance = instances[0];
+    const instance = instances[0];
   const imageSet = new ImageSet(instances);
   const seriesData = series.getData();
 

@@ -15,6 +15,9 @@ const setEnabledElement = (viewportIndex, element) =>
  *
  * @return {HTMLElement} Active viewport element.
  */
-const getEnabledElement = viewportIndex => state.enabledElements[viewportIndex];
+const getEnabledElement = viewportIndex => {
+  // console.log('----XXXXXXX-----state en cornerstone getEnabledElement',state)
+  state.enabledElements[viewportIndex]
+};
 
 export { setEnabledElement, getEnabledElement };

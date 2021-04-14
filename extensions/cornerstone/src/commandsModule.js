@@ -10,6 +10,7 @@ const scroll = cornerstoneTools.import('util/scroll');
 const { studyMetadataManager } = OHIF.utils;
 const { setViewportSpecificData } = OHIF.redux.actions;
 
+
 const refreshCornerstoneViewports = () => {
   cornerstone.getEnabledElements().forEach(enabledElement => {
     console.log('element at commandsModule')
@@ -33,6 +34,7 @@ const commandsModule = ({ servicesManager }) => {
     flipViewportHorizontal: ({ viewports }) => {
       const enabledElement = getEnabledElement(viewports.activeViewportIndex);
 
+      console.log('flipViewportHorizontal',viewports,viewports.activeViewportIndex)
       if (enabledElement) {
         let viewport = cornerstone.getViewport(enabledElement);
         viewport.hflip = !viewport.hflip;
@@ -41,6 +43,7 @@ const commandsModule = ({ servicesManager }) => {
     },
     flipViewportVertical: ({ viewports }) => {
       const enabledElement = getEnabledElement(viewports.activeViewportIndex);
+      console.log('flipViewporVertical',viewports,viewports.activeViewportIndex)
 
       if (enabledElement) {
         let viewport = cornerstone.getViewport(enabledElement);
@@ -51,6 +54,7 @@ const commandsModule = ({ servicesManager }) => {
     scaleViewport: ({ direction, viewports }) => {
       const enabledElement = getEnabledElement(viewports.activeViewportIndex);
       const step = direction * 0.15;
+      console.log('scaleVieport',viewports,viewports.activeViewportIndex)
 
       if (enabledElement) {
         if (step) {
@@ -63,7 +67,9 @@ const commandsModule = ({ servicesManager }) => {
       }
     },
     resetViewport: ({ viewports }) => {
+      console.log('reset',viewports,viewports.activeViewportIndex)
       const enabledElement = getEnabledElement(viewports.activeViewportIndex);
+      console.log('anebled element',enabledElement)
 
       if (enabledElement) {
         cornerstone.reset(enabledElement);
@@ -270,18 +276,24 @@ const commandsModule = ({ servicesManager }) => {
       frameIndex,
       activeViewportIndex,
     }) => {
+
       const study = studyMetadataManager.get(StudyInstanceUID);
+      // console.log('studymetadatamanager',studyMetadataManager)
+      console.log('formato de este study??', study);
 
       const displaySet = study.findDisplaySet(ds => {
+        console.log('formato de esta imagen?',ds)
         return (
           ds.images &&
           ds.images.find(i => i.getSOPInstanceUID() === SOPInstanceUID)
         );
       });
 
+      //acopla al displaySet
       displaySet.SOPInstanceUID = SOPInstanceUID;
       displaySet.frameIndex = frameIndex;
 
+      //por que hace el dispatch en el store????
       window.store.dispatch(
         setViewportSpecificData(activeViewportIndex, displaySet)
       );

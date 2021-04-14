@@ -17,12 +17,13 @@ function ImageThumbnail(props) {
   const {
     width,
     height,
-    imageSrc,
-    imageId,
+    imageSrc,//wado
+    imageId,//wadors - /frame/1
     stackPercentComplete,
     error: propsError,
   } = props;
 
+  // console.log(width,height,imageSrc,imageId,stackPercentComplete)
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({});
@@ -40,6 +41,8 @@ function ImageThumbnail(props) {
   const showStackLoadingProgressBar = stackPercentComplete !== undefined;
 
   const shouldRenderToCanvas = () => {
+    // // // console.log('shouldRenderToCanvas', imageId && !imageSrc,imageId, imageSrc)
+    imageSrc && console.warn('render to img ',imageSrc);
     return imageId && !imageSrc;
   };
 
@@ -63,6 +66,7 @@ function ImageThumbnail(props) {
 
   const setImagePromise = () => {
     if (shouldRenderToCanvas()) {
+      // console.log('imageId----',imageId)
       cancelablePromise = utils.makeCancelable(
         cornerstone.loadAndCacheImage(imageId)
       );
@@ -83,6 +87,7 @@ function ImageThumbnail(props) {
 
   useEffect(() => {
     if (image.imageId) {
+      // console.log('THE IMAGE TO RENDER ------------',image)
       cornerstone.renderToCanvas(canvasRef.current, image);
       setLoading(false);
     }

@@ -62,10 +62,8 @@ class Viewer extends Component {
   constructor(props) {
     super(props);
 
-    console.log('Viewer props', this.props);
     const { activeServer } = this.props;
     const server = Object.assign({}, activeServer);
-    console.log('activeServer', activeServer);
 
     OHIF.measurements.MeasurementApi.setConfiguration({
       dataExchange: {
@@ -169,6 +167,7 @@ class Viewer extends Component {
 
   componentDidMount() {
     const { studies, isStudyLoaded } = this.props;
+
     const { TimepointApi, MeasurementApi } = OHIF.measurements;
     const currentTimepointId = 'TimepointId';
 
@@ -183,12 +182,6 @@ class Viewer extends Component {
     this.currentTimepointId = currentTimepointId;
     this.timepointApi = timepointApi;
     this.measurementApi = measurementApi;
-    console.log(
-      'some apis on Viewer',
-      currentTimepointId,
-      timepointApi,
-      measurementApi
-    );
 
     if (studies) {
       const PatientID = studies[0] && studies[0].PatientID;
@@ -208,6 +201,7 @@ class Viewer extends Component {
 
   componentDidUpdate(prevProps) {
     const { studies, isStudyLoaded } = this.props;
+    console.log('Viewer props Montado', this.props);
 
     if (studies !== prevProps.studies) {
       this.setState({
@@ -407,6 +401,7 @@ const _mapStudiesToThumbnails = function(studies) {
       } else if (displaySet.images && displaySet.images.length) {
         const imageIndex = Math.floor(displaySet.images.length / 2);
 
+        // console.log('displaySet ----',displaySet);
         imageId = displaySet.images[imageIndex].getImageId();
       } else {
         altImageText = displaySet.Modality ? displaySet.Modality : 'UN';

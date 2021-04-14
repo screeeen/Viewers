@@ -154,7 +154,7 @@ const _addSeriesToStudy = (studyMetadata, series) => {
   const sopClassHandlerModules =
     extensionManager.modules['sopClassHandlerModule'];
   const study = studyMetadata.getData();
-  const seriesMetadata = new OHIFSeriesMetadata(series, study);
+  const seriesMetadata = new  (series, study);
   const existingSeries = studyMetadata.getSeriesByUID(series.SeriesInstanceUID);
   if (existingSeries) {
     studyMetadata.updateSeries(series.SeriesInstanceUID, seriesMetadata);
@@ -177,7 +177,7 @@ const _addSeriesToStudy = (studyMetadata, series) => {
 
 const _updateStudyMetadataManager = (study, studyMetadata) => {
   const { StudyInstanceUID } = study;
-
+  // console.log('studyMetadataManager',studyMetadataManager)
   if (!studyMetadataManager.get(StudyInstanceUID)) {
     studyMetadataManager.add(studyMetadata);
   }
@@ -271,6 +271,7 @@ function ViewerRetrieveStudyData({
   const processStudies = (studiesData, filters) => {
     if (Array.isArray(studiesData) && studiesData.length > 0) {
       // Map studies to new format, update metadata manager?
+      console.log('studies map data', studiesData,filters)
       const studies = studiesData.map(study => {
         setStudyData(study.StudyInstanceUID, _thinStudyData(study));
         const studyMetadata = new OHIFStudyMetadata(
@@ -283,7 +284,7 @@ function ViewerRetrieveStudyData({
 
         // Attempt to load remaning series if any
         cancelableSeriesPromises[study.StudyInstanceUID] = makeCancelable(
-          loadRemainingSeries(studyMetadata)
+          // loadRemainingSeries(studyMetadata)
         )
           .then(result => {
             if (result && !result.isCanceled) {
@@ -307,12 +308,14 @@ function ViewerRetrieveStudyData({
   const forceRerender = () => setStudies(studies => [...studies]);
 
   const loadRemainingSeries = async studyMetadata => {
+    console.log('studyMetadata',studyMetadata)
     const { seriesLoader } = studyMetadata.getData();
     if (!seriesLoader) return;
 
     const loadNextSeries = async () => {
       if (!seriesLoader.hasNext()) return;
       const series = await seriesLoader.next();
+      // console.log('series', series);
       _addSeriesToStudy(studyMetadata, series);
       forceRerender();
       return loadNextSeries();
@@ -348,13 +351,14 @@ function ViewerRetrieveStudyData({
       ) {
         retrieveParams.push(true); // Seperate SeriesInstanceUID filter calls.
       }
-
+      console.log('RETRIEVE',retrieveParams)
       cancelableStudiesPromises[studyInstanceUIDs] = makeCancelable(
         retrieveStudiesMetadata(...retrieveParams)
       )
         .then(result => {
           if (result && !result.isCanceled) {
-            processStudies(result, filters);
+            console.log('RESULT', result);
+            // processStudies(result, filters);
           }
         })
         .catch(error => {

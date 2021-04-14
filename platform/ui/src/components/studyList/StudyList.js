@@ -38,6 +38,7 @@ function StudyList(props) {
     studyListDateFilterNumDays,
     displaySize,
   } = props;
+
   const { t, ready: translationsAreReady } = useTranslation('StudyList');
 
   const largeTableMeta = [

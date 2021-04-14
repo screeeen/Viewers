@@ -87,7 +87,6 @@ function buildInstanceFrameWadoRsUri(
     SOPInstanceUID
   );
   frame = frame != null || 1;
-
   return `${baseWadoRsUri}/frames/${frame}`;
 }
 
@@ -146,7 +145,7 @@ async function makeSOPInstance(server, study, instance) {
     imageRendering: server.imageRendering,
     thumbnailRendering: server.thumbnailRendering,
   };
-
+  // console.log('sopInstance ------ ~~~~~~~',sopInstance)
   series.instances.push(sopInstance);
 
   if (
@@ -159,12 +158,13 @@ async function makeSOPInstance(server, study, instance) {
     // will cry if you don't add data to cornerstoneWADOImageLoader.wadors.metaDataManager).
 
     const wadoRSMetadata = Object.assign(instance);
-
+    // console.log('sopInstance', sopInstance);
     const { NumberOfFrames } = sopInstance.metadata;
 
     if (NumberOfFrames) {
       for (let i = 0; i < NumberOfFrames; i++) {
         const wadorsImageId = getWADORSImageId(sopInstance, i);
+        // console.log('cornerstoneWADOImageLoader',cornerstoneWADOImageLoader);
 
         cornerstoneWADOImageLoader.wadors.metaDataManager.add(
           wadorsImageId,

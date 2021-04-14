@@ -4,6 +4,7 @@ const studyMetadataList = new TypeSafeCollection();
 
 function add(studyMetadata) {
   studyMetadataList.insert(studyMetadata);
+  // console.log('studyMetadataList',studyMetadataList)
 }
 
 function get(studyInstanceUID) {

@@ -43,6 +43,7 @@ const mapDispatchToProps = dispatch => {
         dispatch(setViewportActive(0));
       }
 
+      // console.log('cual es la layout que despacha en redux store', layout)
       dispatch(setLayout(layout));
     },
   };

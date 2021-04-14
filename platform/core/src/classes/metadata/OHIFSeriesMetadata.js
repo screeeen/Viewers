@@ -23,6 +23,9 @@ export class OHIFSeriesMetadata extends SeriesMetadata {
 
     // populate internal list of instances...
     series.instances.forEach(instance => {
+      console.warn('instance', instance)
+      console.warn('instance ohif', new OHIFInstanceMetadata(instance, series, study))
+
       this.addInstance(new OHIFInstanceMetadata(instance, series, study));
     });
   }

@@ -308,11 +308,11 @@ function _getButtonComponents(toolbarButtons, activeButtons) {
  */
 function _handleToolbarButtonClick(button, evt, props) {
   const { activeButtons } = this.state;
-  console.log('state at _handleToolbarButtonClick ',this.state)
+  // console.log('state at _handleToolbarButtonClick ',this.state)
   if (button.commandName) {
     const options = Object.assign({ evt }, button.commandOptions);
     commandsManager.runCommand(button.commandName, options);
-    console.log('commandsManager at button',commandsManager)
+    // console.log('commandsManager at button',commandsManager)
   }
 
   // TODO: Use Types ENUM

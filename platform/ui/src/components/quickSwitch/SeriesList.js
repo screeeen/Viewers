@@ -5,24 +5,30 @@ import { Thumbnail } from './../studyBrowser';
 import './SeriesList.styl';
 
 export class SeriesList extends Component {
+
+
   static propTypes = {
     seriesItems: PropTypes.array.isRequired,
     onClick: PropTypes.func.isRequired,
     activeDisplaySetInstanceUID: PropTypes.string,
   };
 
+
   render() {
+
     return (
       <React.Fragment>
-        <div className="study-browser-series clearfix thumbnails-wrapper">
+        {/* <div className="study-browser-series clearfix thumbnails-wrapper">
           <div className="study-series-container">{this.getSeriesItems()}</div>
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }
 
   getSeriesItems = () => {
+    console.log('seriesData');
     return this.props.seriesItems.map((seriesData, index) => {
+
       return (
         <Thumbnail
           key={seriesData.displaySetInstanceUID}

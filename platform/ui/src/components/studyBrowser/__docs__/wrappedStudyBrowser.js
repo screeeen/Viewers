@@ -17,12 +17,12 @@ class StudyBrowserContainer extends Component {
 
     return (
       <React.Fragment>
-        <ExampleDropTarget />
-        <StudyBrowser
+        {/* <ExampleDropTarget /> */}
+        {/* <StudyBrowser
           studies={studies}
           onThumbnailClick={onThumbnailClick}
           onThumbnailDoubleClick={onThumbnailDoubleClick}
-        />
+        /> */}
       </React.Fragment>
     );
   }

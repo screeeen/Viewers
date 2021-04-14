@@ -15,10 +15,13 @@ const mapStateToProps = (state, ownProps) => {
   // If we know that the stack loading progress details have changed,
   // we can try to update the component state so that the thumbnail
   // progress bar is updated
+  // console.log('STATE   ConnectedStudyBrowser',state,ownProps);
+
   const stackLoadingProgressMap = state.loading.progress;
   const studiesWithLoadingData = cloneDeep(ownProps.studies);
 
   studiesWithLoadingData.forEach(study => {
+    // console.log(study)
     study.thumbnails.forEach(data => {
       const { displaySetInstanceUID } = data;
       const stackId = `StackProgress:${displaySetInstanceUID}`;

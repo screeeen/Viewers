@@ -14,6 +14,8 @@ import measurementServiceMappingsFactory from './utils/measurementServiceMapping
  */
 export default function init({ servicesManager, configuration }) {
   const { UIDialogService, MeasurementService } = servicesManager.services;
+  console.log('start init')
+  // console.log('props on start serviceManager, configuration',servicesManager,configuration )
 
   const callInputDialog = (data, event, callback) => {
     if (UIDialogService) {
@@ -39,12 +41,17 @@ export default function init({ servicesManager, configuration }) {
 
   const { csToolsConfig } = configuration;
   console.log('configuration', configuration);
+  console.log('csToolsConfig', csToolsConfig);
   const metadataProvider = OHIF.cornerstone.metadataProvider;
 
+
+  //añade provider??
   cornerstone.metaData.addProvider(
     metadataProvider.get.bind(metadataProvider),
     9999
   );
+  console.log('cornerstone',cornerstone)
+  console.log('cornerstone.metadata',cornerstone.metadata)
 
   // ~~
   const defaultCsToolsConfig = csToolsConfig || {
@@ -54,6 +61,7 @@ export default function init({ servicesManager, configuration }) {
   };
   console.log('defaultCsToolsConfig', defaultCsToolsConfig);
   initCornerstoneTools(defaultCsToolsConfig);
+  console.log('cornerstone despues de iniciar',cornerstone)
 
   const toolsGroupedByType = {
     touch: [csTools.PanMultiTouchTool, csTools.ZoomTouchPinchTool],
@@ -84,6 +92,7 @@ export default function init({ servicesManager, configuration }) {
     tools.push(...toolsGroupedByType[toolsGroup])
   );
 
+  console.log('tools que va a meter', tools)
   /* Measurement Service */
   _connectToolsToMeasurementService(MeasurementService);
 
@@ -99,8 +108,11 @@ export default function init({ servicesManager, configuration }) {
     },
   };
 
+  console.log('extension tools config...',internalToolsConfig);
+
   /* Abstract tools configuration using extension configuration. */
   const parseToolProps = (props, tool) => {
+    // console.log('parseToolProps  props tool',props,tool)
     const { annotations } = toolsGroupedByType;
     // An alternative approach would be to remove the `drawHandlesOnHover` config
     // from the supported configuration properties in `cornerstone-tools`
@@ -141,6 +153,7 @@ export default function init({ servicesManager, configuration }) {
       internalToolProps,
       parseToolProps(externalToolProps, tool)
     );
+    // console.log('antes de añadir la tool (tools y props)', tool, props)
     csTools.addTool(tool, props);
   });
 
@@ -148,9 +161,14 @@ export default function init({ servicesManager, configuration }) {
   const BaseAnnotationTool = csTools.importInternal('base/BaseAnnotationTool');
   tools.forEach(tool => {
     if (tool.prototype instanceof BaseAnnotationTool) {
+
+
+      // console.log('tool nombra las que son anotaciones', tool)
       // BaseAnnotationTool would likely come from csTools lib exports
       const toolName = new tool().name;
+      // console.log('tool nombra las que son anotaciones', toolName)
       csTools.setToolPassive(toolName); // there may be a better place to determine name; may not be on uninstantiated class
+      // console.log('tool nombra las que son anotaciones', csTools)
     }
   });
 
@@ -216,11 +234,11 @@ const _connectToolsToMeasurementService = measurementService => {
           if (![sourceId].includes(source.id)) {
             const annotation = getAnnotation('Length', measurement.id);
 
-            console.log(
-              'Measurement Service [Cornerstone]: Measurement added',
-              measurement
-            );
-            console.log('Mapped annotation:', annotation);
+            // console.log(
+            //   'Measurement Service [Cornerstone]: Measurement added',
+            //   measurement
+            // );
+            // console.log('Mapped annotation:', annotation);
           }
         }
       );

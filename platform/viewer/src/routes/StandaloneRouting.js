@@ -140,6 +140,7 @@ class StandaloneRouting extends Component {
         seriesInstanceUIDs,
       } = await this.parseQueryAndRetrieveDICOMWebData(query);
 
+      console.log('studieeeeeeeeeeeeeeeeeeee',studies)
       if (studies) {
         const {
           studies: updatedStudies,
@@ -181,30 +182,36 @@ class StandaloneRouting extends Component {
   }
 }
 
-const _mapStudiesToNewFormat = studies => {
-  studyMetadataManager.purge();
+// const _mapStudiesToNewFormat = studies => {
+//   console.log('antes', studies)
+//   console.log('antes', studyMetadataManager)
+//   studyMetadataManager.purge();
 
-  /* Map studies to new format, update metadata manager? */
-  const uniqueStudyUIDs = new Set();
-  const updatedStudies = studies.map(study => {
-    const studyMetadata = new OHIFStudyMetadata(study, study.StudyInstanceUID);
+//   /* Map studies to new format, update metadata manager? */
+//   const uniqueStudyUIDs = new Set();
+//   const updatedStudies = studies.map(study => {
+//   const studyMetadata = new OHIFStudyMetadata(study, study.StudyInstanceUID);
 
-    const sopClassHandlerModules =
-      extensionManager.modules['sopClassHandlerModule'];
-    study.displaySets =
-      study.displaySets ||
-      studyMetadata.createDisplaySets(sopClassHandlerModules);
+//   console.log('studyMetadata to new format',studyMetadata);
 
-    studyMetadataManager.add(studyMetadata);
-    uniqueStudyUIDs.add(study.StudyInstanceUID);
+//     const sopClassHandlerModules =
+//       extensionManager.modules['sopClassHandlerModule'];
+//     study.displaySets =
+//       study.displaySets ||
+//       studyMetadata.createDisplaySets(sopClassHandlerModules);
 
-    return study;
-  });
+//     studyMetadataManager.add(studyMetadata);
+//     uniqueStudyUIDs.add(study.StudyInstanceUID);
 
-  return {
-    studies: updatedStudies,
-    studyInstanceUIDs: Array.from(uniqueStudyUIDs),
-  };
-};
+//     console.log('formatted',study);
+
+//     return study;
+//   });
+
+//   return {
+//     studies: updatedStudies,
+//     studyInstanceUIDs: Array.from(uniqueStudyUIDs),
+//   };
+// };
 
 export default StandaloneRouting;

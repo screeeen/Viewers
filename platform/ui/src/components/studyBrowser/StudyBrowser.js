@@ -10,12 +10,14 @@ function StudyBrowser(props) {
     onThumbnailDoubleClick,
     supportsDrag,
   } = props;
+  // console.log('studies study browser', studies)
 
   return (
     <div className="study-browser">
       <div className="scrollable-study-thumbnails">
         {studies
           .map((study, studyIndex) => {
+            // console.log('hey', study, studyIndex)
             const { StudyInstanceUID } = study;
             return study.thumbnails.map((thumb, thumbIndex) => {
               // TODO: Thumb has more props than we care about?
