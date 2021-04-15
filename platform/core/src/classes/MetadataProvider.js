@@ -152,9 +152,10 @@ class MetadataProvider {
     return this.getTagFromInstance(query, instance, options);
   }
 
-  getTag(query, imageId, options) {
-    return this.get(query, imageId, options);
-  }
+  // getTag(query, imageId, options) {
+  //   console.log('*query', query, imageId, options);
+  //   return this.get(query, imageId, options);
+  // }
 
   getInstance(imageId) {
     return this.get(INSTANCE, imageId);
@@ -165,6 +166,11 @@ class MetadataProvider {
     instance,
     options = { fallback: false }
   ) {
+    console.log(
+      '*POPO getTagFromInstance',
+      naturalizedTagOrWADOImageLoaderTag
+      // instance
+    );
     if (!instance) {
       return;
     }
@@ -183,6 +189,11 @@ class MetadataProvider {
 
   _getCornerstoneWADOImageLoaderTag(wadoImageLoaderTag, instance) {
     let metadata;
+    console.log(
+      '* _getCornerstoneWADOImageLoaderTag',
+      wadoImageLoaderTag,
+      instance
+    );
 
     switch (wadoImageLoaderTag) {
       case WADO_IMAGE_LOADER_TAGS.GENERAL_SERIES_MODULE:

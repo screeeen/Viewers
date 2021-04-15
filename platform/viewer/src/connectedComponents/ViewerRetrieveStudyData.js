@@ -154,7 +154,7 @@ const _addSeriesToStudy = (studyMetadata, series) => {
   const sopClassHandlerModules =
     extensionManager.modules['sopClassHandlerModule'];
   const study = studyMetadata.getData();
-  const seriesMetadata = new  (series, study);
+  const seriesMetadata = new (series, study)();
   const existingSeries = studyMetadata.getSeriesByUID(series.SeriesInstanceUID);
   if (existingSeries) {
     studyMetadata.updateSeries(series.SeriesInstanceUID, seriesMetadata);
@@ -177,10 +177,12 @@ const _addSeriesToStudy = (studyMetadata, series) => {
 
 const _updateStudyMetadataManager = (study, studyMetadata) => {
   const { StudyInstanceUID } = study;
-  // console.log('studyMetadataManager',studyMetadataManager)
+  console.log('* studyMetadataManager', studyMetadataManager);
+
   if (!studyMetadataManager.get(StudyInstanceUID)) {
     studyMetadataManager.add(studyMetadata);
   }
+  console.log('* studyMetadataManager', studyMetadataManager);
 };
 
 const _updateStudyDisplaySets = (study, studyMetadata) => {
@@ -233,6 +235,8 @@ function ViewerRetrieveStudyData({
    * @param {string} [filter.seriesInstanceUID] - series instance uid to filter results against
    */
   const studyDidLoad = (study, studyMetadata, filters) => {
+    console.log('*study did load', study);
+
     // User message
     const promoted = _promoteList(
       study,
@@ -269,9 +273,10 @@ function ViewerRetrieveStudyData({
    * @param {string} [filters.seriesInstanceUID] - series instance uid to filter results against
    */
   const processStudies = (studiesData, filters) => {
+    console.log('* studiesData', studiesData);
     if (Array.isArray(studiesData) && studiesData.length > 0) {
       // Map studies to new format, update metadata manager?
-      console.log('studies map data', studiesData,filters)
+      console.log('studies map data', studiesData, filters);
       const studies = studiesData.map(study => {
         setStudyData(study.StudyInstanceUID, _thinStudyData(study));
         const studyMetadata = new OHIFStudyMetadata(
@@ -283,9 +288,8 @@ function ViewerRetrieveStudyData({
         _updateStudyMetadataManager(study, studyMetadata);
 
         // Attempt to load remaning series if any
-        cancelableSeriesPromises[study.StudyInstanceUID] = makeCancelable(
+        cancelableSeriesPromises[study.StudyInstanceUID] = makeCancelable()
           // loadRemainingSeries(studyMetadata)
-        )
           .then(result => {
             if (result && !result.isCanceled) {
               studyDidLoad(study, studyMetadata, filters);
@@ -308,7 +312,7 @@ function ViewerRetrieveStudyData({
   const forceRerender = () => setStudies(studies => [...studies]);
 
   const loadRemainingSeries = async studyMetadata => {
-    console.log('studyMetadata',studyMetadata)
+    console.log('studyMetadata', studyMetadata);
     const { seriesLoader } = studyMetadata.getData();
     if (!seriesLoader) return;
 
@@ -351,7 +355,7 @@ function ViewerRetrieveStudyData({
       ) {
         retrieveParams.push(true); // Seperate SeriesInstanceUID filter calls.
       }
-      console.log('RETRIEVE',retrieveParams)
+      console.log('RETRIEVE', retrieveParams);
       cancelableStudiesPromises[studyInstanceUIDs] = makeCancelable(
         retrieveStudiesMetadata(...retrieveParams)
       )
